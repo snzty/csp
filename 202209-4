@@ -1,0 +1,77 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int n,m,q;
+    cin>>n>>m>>q;
+    int a[2005]={0};//每人选的作品号
+    int l,r,x,w,y;
+    set<int> b[1001];//每个作品的选人
+    for(int qq=0;qq<q;qq++){
+        int temp;
+        cin>>temp;
+        if(temp==1){
+            cin>>l>>r>>x;
+            for(int j=l;j<=r;j++){
+                int temp4=a[j];
+                a[j]=x;
+                b[x].insert(j);
+                b[temp4].erase(j);
+            }
+        }
+        else if(temp==2){
+            cin>>x>>w;
+            if(w==0){
+                for(auto i=b[x].begin();i!=b[x].end();i++){
+                    a[*i]=0;
+                }
+            }
+            else{
+                for(auto i=b[x].begin();i!=b[x].end();i++){
+                    a[*i]=w;
+                    b[w].insert(*i);
+                }
+            }
+            b[x].clear();
+        }
+        else if(temp==3){
+            cin>>x>>y;
+            b[x].swap(b[y]);
+            for(auto i=b[x].begin();i!=b[x].end();i++){
+                a[*i]=x;
+            }
+            for(auto i=b[y].begin();i!=b[y].end();i++){
+                a[*i]=y;
+            }
+        }
+        else if(temp==4){
+            cin>>w;
+            int result=0;
+            if(w==0){
+                for(int i=1;i<=m;i++){
+                    result+=b[i].size();
+                }
+                result=n-result;
+            }
+            else{
+                result=b[w].size();
+            }
+            cout<<result<<endl;
+        }
+        else if(temp==5){
+            int dz,piaoshu=0;
+            for(int i=1;i<=m;i++){
+                if(b[i].size()>piaoshu){
+                    dz=i;
+                    piaoshu=b[i].size();
+                }
+            }
+            if(piaoshu==0){
+                cout<<0<<endl;
+            }
+            else
+                cout<<dz<<endl;
+        }
+    }
+    return 0;
+}
